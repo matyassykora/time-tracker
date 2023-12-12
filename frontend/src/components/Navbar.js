@@ -1,6 +1,6 @@
 import ThemeSwitcher from 'components/ThemeSwitcher';
 
-export default function Navbar() {
+export default function Navbar({searchHandler}) {
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -21,7 +21,7 @@ export default function Navbar() {
             </li>
           </ul>
           <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+            <input onChange={searchHandler} className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
             <button className="btn btn-outline-success" type="submit">Search</button>
           </form>
           <ThemeSwitcher />
