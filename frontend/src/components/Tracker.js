@@ -4,7 +4,7 @@ import { useTimer } from 'hooks/useTimer';
 import EditableTextItem from 'components/EditableTextItem';
 import { format as formatTime, parseISO } from 'date-fns';
 
-export default function Tracker({ trackerList, setTrackerList, error, setError }) {
+export default function Tracker({ trackerList, setTrackerList, setMin, setMax, error, setError }) {
 
   const isFirstRender = useRef(true);
 
@@ -13,6 +13,8 @@ export default function Tracker({ trackerList, setTrackerList, error, setError }
       .get('/api/trackers')
       .then(res => {
         setTrackerList(res.data);
+        setMin(formatTime(parseISO(res.data[0].createdAt), 'yyyy-MM-dd'));
+        setMax(formatTime(parseISO(res.data[res.data.length - 1].createdAt), 'yyyy-MM-dd'));
       })
       .catch(err => {
         setError(err);
@@ -25,7 +27,7 @@ export default function Tracker({ trackerList, setTrackerList, error, setError }
       getTrackers();
       return;
     }
-  }, [])
+  })
 
 
   const format = (time) => {
@@ -73,9 +75,8 @@ export default function Tracker({ trackerList, setTrackerList, error, setError }
         title: text,
       })
       .then(res => {
+        getTrackers();
         setTrackerList(trackerList.map(tracker => tracker.id === id ? res.data : tracker));
-        // getTrackers();
-        // setTrackerList([...trackerList, res.data]);
       })
       .catch(err => {
         setError(err);
@@ -109,7 +110,6 @@ export default function Tracker({ trackerList, setTrackerList, error, setError }
   const { seconds, startAdd, startConsume, reset, pause } = useTimer();
 
   const handleSubmit = (key, e) => {
-    console.log(e.target.value, key);
     editTracker(key, e.target.value);
   }
 
