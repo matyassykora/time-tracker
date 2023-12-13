@@ -43,9 +43,9 @@ export default function App() {
     <div className="App">
       <ThemeProvider >
         <Navbar searchHandler={searchHandler} min={min} max={max} />
-        <Tracker setMin={setMin} setMax={setMax} error={error} setError={setError} trackerList={filteredData} setTrackerList={setTrackerList} />
+        <Tracker setMax={setMax} setMin={setMin} error={error} setError={setError} trackerList={filteredData} setTrackerList={setTrackerList} />
       </ThemeProvider>
-      <footer className="mt-4 footer text-muted">
+      <footer className="fixed-bottom footer text-muted">
         <div className="text-center p-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.10)' }}>
           <a className="text-reset btn btn-outline btn-floating fw-bold" target="_blank" rel="noreferrer" href="https://github.com/matyassykora"><FontAwesomeIcon icon={faGithub} /> matyassykora</a>
         </div>
