@@ -1,5 +1,7 @@
 # Time tracker
 Is a tool for tracking the time you spend procrastinating vs being productive
+![example](example.jpg)
+
 ## Dependencies
 ### [Python 3](https://www.python.org/downloads/)
 ### [pip](https://pip.pypa.io/en/stable/installation/)
