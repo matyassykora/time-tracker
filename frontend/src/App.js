@@ -1,12 +1,22 @@
 import './App.css';
-import Tracker from 'components/Tracker';
-import { ThemeProvider } from 'hooks/useThemeContext';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Navbar from 'components/Navbar';
-import { format as formatTime, parseISO } from 'date-fns';
+
 import { useState } from 'react';
+import Tracker from 'components/Tracker';
+import Navbar from 'components/Navbar';
+import { ThemeProvider } from 'hooks/useThemeContext';
+
+import { format as formatTime, parseISO } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
+
+/** 
+ * @typedef {Object} tracker
+ * @property {number} timestamp
+ * @property {string} title
+ * @property {number} createdAt
+ * @property {number} id
+ */
 
 export default function App() {
   const [trackerList, setTrackerList] = useState([]);
@@ -15,7 +25,8 @@ export default function App() {
   const [min, setMin] = useState("");
   const [max, setMax] = useState("");
 
-  let searchHandler = (e) => {
+  /** @param {Event} e */
+  const searchHandler = (e) => {
     if (e.target.value === "") {
       setSearchText("");
       return;
@@ -23,7 +34,7 @@ export default function App() {
     setSearchText(e.target.value.toLowerCase());
   }
 
-  const filteredData = trackerList.filter(tracker => {
+  const filteredData = trackerList.filter(/** @param {tracker} tracker */ tracker => {
     if (searchText === "") {
       return tracker;
     }
@@ -40,13 +51,20 @@ export default function App() {
   })
 
   return (
-    <div className="App">
-      <ThemeProvider >
-        <Navbar searchHandler={searchHandler} min={min} max={max} />
-        <Tracker setMax={setMax} setMin={setMin} error={error} setError={setError} trackerList={filteredData} setTrackerList={setTrackerList} />
-      </ThemeProvider>
-      <footer className="fixed-bottom footer text-muted">
-        <div className="text-center p-3" style={{ backgroundColor: 'rgba(0, 0, 0, 0.10)' }}>
+    <div className="App d-flex flex-column vh-100">
+      <header className="clearfix">
+        <ThemeProvider>
+          <Navbar searchHandler={searchHandler} min={min} max={max} />
+        </ThemeProvider>
+      </header>
+
+      <div className="container-xxl py-4 d-flex flex-grow-1">
+        <Tracker setMax={setMax} setMin={setMin} setError={setError} trackerList={filteredData} setTrackerList={setTrackerList} />
+        {error && <p className="text-danger">{error.message}</p>}
+      </div>
+
+      <footer className="mt-3 footer clearfix text-muted" >
+        <div className="text-center p-3 border-top" >
           <a className="text-reset btn btn-outline btn-floating fw-bold" target="_blank" rel="noreferrer" href="https://github.com/matyassykora"><FontAwesomeIcon icon={faGithub} /> matyassykora</a>
         </div>
       </footer>

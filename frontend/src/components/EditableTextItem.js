@@ -9,17 +9,17 @@ const EditableTextItem = ({ initialText, handleSubmit, identifier }) => {
     setIsEditing(true);
   };
 
+  /** @param {Event} e */
   const handleChange = (e) => {
     setText(e.target.value);
   };
 
+  /** @param {Event} e */
   const handleBlur = (e) => {
     setIsEditing(false);
     handleSubmit(identifier, e);
-    // Save the changes or perform any required actions here
   };
 
-  // Focus the input field when editing starts
   useEffect(() => {
     if (isEditing) {
       inputRef.current.focus();
@@ -37,7 +37,14 @@ const EditableTextItem = ({ initialText, handleSubmit, identifier }) => {
           ref={inputRef}
         />
       ) : (
-        <span>Task: {text}</span>
+        <div>
+          {text === '' ?
+            <button className="btn btn-sm btn-outline-secondary" onClick={() => setIsEditing(true)}>
+              Name task
+            </button> :
+            <span title="Double click to edit">{text}</span>
+          }
+        </div>
       )}
     </div>
   );

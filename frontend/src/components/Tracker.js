@@ -1,13 +1,23 @@
 import { useEffect, useRef } from 'react';
-import axios from 'axios';
-import { useTimer } from 'hooks/useTimer';
 import EditableTextItem from 'components/EditableTextItem';
+import { useTimer } from 'hooks/useTimer';
+import axios from 'axios';
 import { format as formatTime, parseISO } from 'date-fns';
 
 axios.defaults.baseURL = 'http://localhost:8000';
 
-export default function Tracker({ trackerList, setTrackerList, error, setError, setMin, setMax }) {
 
+/** 
+ * @typedef {Object} tracker
+ * @property {number} timestamp
+ * @property {string} title
+ * @property {number} createdAt
+ * @property {number} id
+ */
+
+export default function Tracker({ trackerList, setTrackerList, setError, setMin, setMax }) {
+
+  /** @param {number} time */
   const format = (time) => {
     let hours, minutes, seconds, miliseconds;
     if (time < 0) {
@@ -54,7 +64,6 @@ export default function Tracker({ trackerList, setTrackerList, error, setError, 
       });
   }
 
-
   const deleteTracker = (id) => {
     axios
       .delete(`/api/trackers/${id}/`)
@@ -98,19 +107,23 @@ export default function Tracker({ trackerList, setTrackerList, error, setError, 
 
   const sumList = () => {
     let sum = 0;
-    trackerList.forEach(tracker => {
+    trackerList.forEach(/** @param {tracker} tracker */ tracker => {
       sum += tracker.timestamp;
     });
-    return sum
+    return sum;
   }
 
   const { seconds, startAdd, startConsume, reset, pause } = useTimer();
 
+  /**
+   * @param {number} key
+   * @param {Event} e
+   */
   const handleSubmit = (key, e) => {
     editTracker(key, e.target.value);
   }
 
-  const trackers = trackerList.slice(-10).map((tracker) => (
+  const trackers = trackerList.slice(-10).map(/** @param {tracker} tracker */ tracker => (
     <li key={tracker.id} className={"list-group-item d-flex justify-content-between align-items-center " + (tracker.timestamp < 0 ? "text-danger" : "text-success")}>
       <div className="container">
         <div className="row row-cols-2">
@@ -126,7 +139,7 @@ export default function Tracker({ trackerList, setTrackerList, error, setError, 
       </div>
       <button className="btn btn-danger badge" onClick={() => deleteTracker(tracker.id)}>X</button>
     </li>
-  ))
+  ));
 
   const isFirstRender = useRef(true);
 
@@ -136,12 +149,10 @@ export default function Tracker({ trackerList, setTrackerList, error, setError, 
       getTrackers();
       return;
     }
-  })
-
+  });
 
   return (
     <div className="Tracker container" >
-      {error && <p className="text-danger">{error.message}</p>}
       <ul className="list-group list-group-flush list-group-numbered">
         {trackers}
         < p className={"fs-5 " + (sumList() < 0 ? "text-danger" : "text-success")} > <b>Total: {format(sumList())}</b></p >
