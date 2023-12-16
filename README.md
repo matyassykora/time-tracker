@@ -1,4 +1,18 @@
-To run django backend server, go to backend directory and:
+## Dependencies
+- python 3
+- pip
+- pipenv
+```sh
+pip install --user pipenv
+```
+- npm
+- serve (optional)
+```sh
+npm install --global serve
+```
+
+## Running Django backend
+Go to the _backend_ directory and:
 ```sh
 pipenv install
 ```
@@ -12,10 +26,15 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-To run react frontend server, go to frontend directory and:
+## Running React frontend
+Go to the _frontend_ directory and:
 ```sh
 npm i
 ```
 ```sh
-npm start
+npm run start
+```
+or (if you installed serve)
+```sh
+npm run build && serve -s build
 ```
