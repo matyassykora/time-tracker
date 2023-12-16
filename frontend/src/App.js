@@ -58,9 +58,9 @@ export default function App() {
         </ThemeProvider>
       </header>
 
+      {error && <p className="text-danger">{error.message}</p>}
       <div className="container-xxl py-4 d-flex flex-grow-1">
         <Tracker setMax={setMax} setMin={setMin} setError={setError} trackerList={filteredData} setTrackerList={setTrackerList} />
-        {error && <p className="text-danger">{error.message}</p>}
       </div>
 
       <footer className="mt-3 footer clearfix text-muted" >
