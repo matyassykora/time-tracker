@@ -14,6 +14,12 @@ pip install --user pipenv
 curl -qL https://www.npmjs.com/install.sh | sh
 ```
 
+## Building the app
+Go to the _frontend_ directory and:
+```sh
+npm run build
+```
+
 ## Running the App
 Go to the _backend_ directory and:
 ```sh
