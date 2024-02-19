@@ -17,6 +17,9 @@ curl -qL https://www.npmjs.com/install.sh | sh
 ## Building the app
 Go to the _frontend_ directory and:
 ```sh
+npm install
+```
+```sh
 npm run build
 ```
 
