@@ -15,9 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
+from django.conf import settings
 from rest_framework import routers
 from tracker import views
+from tracker.views import serve_react
 
 
 router = routers.DefaultRouter()
@@ -26,4 +28,6 @@ router.register(r'trackers', views.TrackerView, 'tracker')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    re_path(r"^(?P<path>.*)$", serve_react,
+            {"document_root": settings.REACT_APP_BUILD_PATH}),
 ]
